@@ -9,30 +9,22 @@ func main() {
 }
 
 func productExceptSelf(nums []int) []int {
-	solution := make([]int, len(nums))
-	if len(nums) > 1 {
-		solution[0] = productOfAll(nums[1:])
+	n := len(nums)
+	pre := make([]int, n)
+	suff := make([]int, n)
+	pre[0] = 1
+	suff[n-1] = 1
+
+	for i := 1; i < n; i++ {
+		pre[i] = pre[i-1] * nums[i-1]
+	}
+	for i := n - 2; i >= 0; i-- {
+		suff[i] = suff[i+1] * nums[i+1]
 	}
 
-	for i := 1; i < len(nums)-1; i++ {
-		solution[i] = productOfAll(nums[:i]) * productOfAll(nums[i+1:])
+	ans := make([]int, n)
+	for i := 0; i < n; i++ {
+		ans[i] = pre[i] * suff[i]
 	}
-	if len(nums) > 1 {
-		solution[len(nums)-1] = productOfAll(nums[:len(nums)-1])
-	}
-
-	return solution
-}
-
-func productOfAll(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-	res := nums[0]
-
-	for i := 1; i < len(nums); i++ {
-		res *= nums[i]
-	}
-
-	return res
+	return ans
 }
