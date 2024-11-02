@@ -11,17 +11,9 @@ func main() {
 }
 
 func reverseWords(s string) string {
-	t := strings.Split(strings.TrimSpace(s), " ")
-	filtered := make([]string, 0)
+	words := strings.Fields(s)
 
-	for _, w := range t {
-		if w != "" && w != " " {
-			filtered = append(filtered, strings.TrimSpace(w))
-		}
-	}
+	slices.Reverse(words)
 
-	slices.Reverse(filtered)
-
-	return strings.Join(filtered, " ")
-
+	return strings.Join(words, " ")
 }
